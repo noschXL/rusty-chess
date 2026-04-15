@@ -3,7 +3,6 @@
 codegen-backend = true
 
 [profile.dev]
-codegen-backend = "cranelift"
 
 # https://github.com/rui314/mold#how-to-use
 [target.'cfg(target_os = "linux")']

@@ -55,6 +55,7 @@
                 xorg.libXinerama
                 xorg.libXcursor
                 xorg.libXi
+                libxkbcommon
 
                 # bindgen
                 llvmPackages.libclang
@@ -65,6 +66,17 @@
                 export PROJECT_PREFIX=rust
                 export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib"
                 export RAYLIB_CMAKE_ARGS="-DUSE_WAYLAND=ON"
+                export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
+                pkgs.libGL
+                pkgs.libGLU
+                pkgs.mesa
+                pkgs.xorg.libX11
+                pkgs.xorg.libXrandr
+                pkgs.xorg.libXinerama
+                pkgs.xorg.libXcursor
+                pkgs.xorg.libXi
+                pkgs.libxkbcommon
+              ]}:$LD_LIBRARY_PATH"
               '';
             };
         };
