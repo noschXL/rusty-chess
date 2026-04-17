@@ -1,6 +1,7 @@
 use macroquad::prelude::*;
 use std::cmp::min;
-use crate::gui::constants;
+use crate::gui::{assets::Asset, constants, piece::*};
+use crate::engine::board::*;
 
 
 async fn render_blank_board() {
@@ -27,6 +28,21 @@ async fn render_blank_board() {
     next_frame().await
 }
 
-pub async fn render_board() {
-    render_blank_board().await
+async fn render_pieces(board: &Board, piece_asset: &Asset) {
+    let width = screen_width();
+    let height = screen_height();
+    let square_size = min(width as i32 / 8, height as i32 / 8) as f32;
+    let width_offset = (width - square_size * 8.0) / 2.0;
+    let height_offset = (height - square_size * 8.0) / 2.0;
+    for i in 0..65{
+        let x = i as f32 * square_size + width_offset;
+        let y = (i % 8) as f32 * square_size + height_offset;
+        let piece = board.get_piece_at(i as usize);
+        draw_piece(piece, x, y, square_size, piece_asset);
+    }
+}
+
+pub async fn render_board(piece_asset: &Asset, board: &Board) {
+    render_blank_board().await;
+    render_pieces(board, piece_asset);
 }
