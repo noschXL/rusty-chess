@@ -9,6 +9,7 @@ impl Asset {
 
         match load_texture(path).await {
             Ok(tex) => {
+                tex.set_filter(FilterMode::Linear);
                 Asset{
                     texture: Some(tex),
                 }

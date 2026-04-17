@@ -1,6 +1,9 @@
+use std::ops::Deref;
+
 use macroquad::prelude::warn;
 
 use crate::engine::pieces::*;
+#[derive(Debug)]
 pub struct Board {
     data: [Piece; 64],
     rooksmoved: [bool;4],
@@ -20,5 +23,9 @@ impl Board {
 
     pub fn get_piece_at(&self, index: usize) -> &Piece{
         &self.data[index]
+    }
+
+    pub fn set_piece_data_at(&mut self, index: usize, data: u32){
+        self.data[index].data = data
     }
 }

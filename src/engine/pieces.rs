@@ -1,6 +1,8 @@
 use crate::engine::constants;
+
+#[derive(Debug)]
 pub struct Piece {
-    data: u32,
+    pub data: u32,
 }
 
 impl Piece {

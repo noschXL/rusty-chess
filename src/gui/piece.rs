@@ -20,7 +20,7 @@ pub async fn draw_piece(piece: &Piece, x: f32, y: f32, size: f32, piece_asset: &
 
     if let Some(tex) = &piece_asset.texture {
         width = tex.width();
-        height = tex.width();
+        height = tex.height();
     }
 
     if width == 0.0 {
@@ -30,8 +30,10 @@ pub async fn draw_piece(piece: &Piece, x: f32, y: f32, size: f32, piece_asset: &
         panic!("height of piece_assets is 0")
     }
 
-    let source_x = (piece_type >> 1 -1) as f32 * width / 6.0;
+    let source_x = ((piece_type >> 1) -1) as f32 * width / 6.0;
     let source_y = piece_color as f32 * height / 2.0;
+
+    let source = Some(Rect::new(source_x, source_y, width / 6.0, height / 2.0));
 
     draw_texture_ex(
         piece_asset.texture.as_ref().unwrap(),
@@ -39,10 +41,11 @@ pub async fn draw_piece(piece: &Piece, x: f32, y: f32, size: f32, piece_asset: &
         y,
         WHITE,
         DrawTextureParams{
-            source: Some(Rect::new(source_x, source_y, width, height)),
+            source: source,
             dest_size: Some(Vec2 {x: size,y: size }),
             ..Default::default()
             
         }
     );
+
 }
