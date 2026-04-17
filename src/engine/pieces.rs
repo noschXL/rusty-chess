@@ -6,9 +6,6 @@ pub struct Piece {
 }
 
 impl Piece {
-    pub fn new_fen(data: u32) -> Piece{
-        Piece {data}
-    }
 
     pub fn new_empty() -> Piece{
         Piece{data: 0}

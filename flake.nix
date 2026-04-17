@@ -59,6 +59,8 @@
 
                 # bindgen
                 llvmPackages.libclang
+
+                rust-analyzer
               ];
 
               shellHook = ''

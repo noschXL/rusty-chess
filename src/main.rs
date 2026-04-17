@@ -2,8 +2,8 @@ mod engine;
 mod gui;
 
 use macroquad::prelude::*;
+use engine::constants::fen::*;
 
-use crate::engine::constants::*;
 fn window_conf() -> Conf {
     Conf {
         window_title: "MyGame".to_string(),
@@ -16,8 +16,8 @@ fn window_conf() -> Conf {
 async fn main() {
 
     let piece_asset = gui::init().await;
-    let mut board = engine::board::Board::new_empty();
-    board.set_piece_data_at(0, piece_constants::WHITE | piece_constants::QUEEN);
+    let mut board = engine::board::Board::new_fen(&START.to_string());
+    //board.set_piece_data_at(0, piece_constants::WHITE | piece_constants::QUEEN);
     
     loop {
         gui::render(&piece_asset, &board).await;

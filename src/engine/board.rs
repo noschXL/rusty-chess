@@ -26,24 +26,24 @@ impl Board {
 
         for (step, part) in parts.enumerate() {
             let mut part = part.chars();
-            if step == 1 {
+            if step == 0 {
                 let mut index = 0;
                 for char in part{
-                    if !char.is_numeric() {
+                    if char.is_alphabetic() {
                         let color = !char.is_lowercase();
                         let lower = char.to_lowercase().last().unwrap();
-                        let piece = PIECES.chars().position(|c| c == lower).unwrap() << 1;
+
+                        let piece = (PIECES.chars().position(|c| c == lower).unwrap()+1) << 1;
                         board.set_piece_data_at(index, piece as u32 | color as u32);
                         index += 1;
                     }else if char.is_numeric(){
                         index += char.to_digit(10).unwrap() as usize;
                     }
-
                 }
 
-            }else if step == 2 {
+            }else if step == 1 {
                 board.whitesturn = part.nth(0) == Some('w')
-            }else if step == 3 {
+            }else if step == 2 {
                 let mut rights: [bool; 4] = [false,false,false,false];
                 for char in part {
                     match char {
@@ -55,7 +55,7 @@ impl Board {
                     }
                 }
                 board.castlerights = rights;
-            }else if step == 4{
+            }else if step == 3{
                 let mut en_passant = 0;
                 for char in part{
                     if char == '-'{
@@ -77,7 +77,7 @@ impl Board {
                 }
 
                 board.en_passant = en_passant;
-            }else if step == 5{
+            }else if step == 4{
                 let mut halfmove_clock = 0;
                 for char in part {
                     halfmove_clock *= 10;
@@ -86,14 +86,14 @@ impl Board {
 
                 board.halfmove_clock = halfmove_clock as i32;
 
-            }else if step == 6{
+            }else if step == 5{
                 let mut fullmove_counter = 0;
                 for char in part {
                     fullmove_counter*= 10;
                     fullmove_counter+= char.to_digit(10).unwrap();
                 }
 
-                board.halfmove_clock = fullmove_counter as i32;
+                board.fullmoves = fullmove_counter as i32;
             }
         }
 

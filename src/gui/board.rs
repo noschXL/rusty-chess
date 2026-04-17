@@ -38,8 +38,8 @@ async fn render_pieces(board: &Board, piece_asset: &Asset) {
         if piece.get_type() == EMPTY {
             continue;
         }
-        let x = i as f32 * square_size + width_offset;
-        let y = (i % 8) as f32 * square_size + height_offset;
+        let x = (i % 8) as f32 * square_size + width_offset;
+        let y = (i / 8) as f32 * square_size + height_offset;
         draw_piece(piece, x, y, square_size, piece_asset).await;
     }
 }
