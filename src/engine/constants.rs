@@ -1,5 +1,6 @@
 
 
+//! syncronize with the fen module, fen encoding will break otherwise
 pub mod piece_constants {
     pub const WHITE: u32 = 0b0;
     pub const BLACK: u32 = 0b1;
@@ -29,4 +30,7 @@ pub mod movement {
 
 pub mod fen {
     pub const START: &str = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+    // ! syncronize with the piece_constants module, fen encoding will break otherwise
+    pub const PIECES: &str = "pbnrqk"; 
 }
