@@ -1,4 +1,4 @@
-use crate::{engine::board::Board, gui::assets::Asset};
+use crate::{engine::board::{Board, Move}, gui::{assets::Asset, board::MouseState}};
 
 pub mod board;
 pub mod piece;
@@ -11,6 +11,7 @@ pub async fn init() -> Asset{
     piece_asset
 }
 
-pub async fn render(piece_asset: &Asset, board: &Board) {
-    board::render_board(piece_asset, board).await
+pub async fn run(piece_asset: &Asset, board: &Board, state: &mut MouseState) -> Move{
+    board::render_board(piece_asset, board).await;
+    board::handle_mouse(piece_asset, board, state).await
 }

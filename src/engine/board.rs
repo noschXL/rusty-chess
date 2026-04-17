@@ -1,3 +1,5 @@
+use std::{net::UdpSocket, usize};
+
 use crate::engine::{constants::fen::PIECES, pieces::*};
 #[derive(Debug)]
 pub struct Board {
@@ -7,6 +9,8 @@ pub struct Board {
     en_passant: i32,
     halfmove_clock: i32,
     fullmoves: i32,
+    moves: Vec<Move>,
+    captures: Vec<Piece>,
 }
 
 
@@ -107,7 +111,9 @@ impl Board {
             whitesturn: true,
             en_passant: -1,
             halfmove_clock: 0,
-            fullmoves: 0
+            fullmoves: 0,
+            moves: Vec::new(),
+            captures: Vec::new(),
         }
     }
 
@@ -117,5 +123,60 @@ impl Board {
 
     pub fn set_piece_data_at(&mut self, index: usize, data: u32){
         self.data[index].data = data
+    }
+
+    pub fn make_move(&mut self, mov: Move){
+        if mov.capture {
+            self.captures.push(self.data[mov.to as usize].clone());
+        }
+        
+        self.data[mov.to as usize] = self.data[mov.from as usize].clone();
+        
+        self.data[mov.from as usize] = Piece::new_empty();
+        
+        self.moves.push(mov);
+    }
+    
+    pub fn unmake_move(&mut self){
+        let mut p = Piece::new_empty();
+        let mov = self.moves.pop().unwrap_or_else(Move::new_invalid);
+        if mov.is_invalid() {
+            return
+        }
+        if mov.capture {
+            p = self.captures.pop().unwrap();
+        }
+        
+        self.data[mov.from as usize] = self.data[mov.to as usize].clone();
+        
+        self.data[mov.to as usize] = p;
+    }
+}
+
+
+#[derive(Debug)]
+pub struct Move {
+    from: i32,
+    to: i32,
+    capture: bool,
+    promotion: i32,
+    en_passant: bool,
+}
+
+impl Move {
+    pub fn new_invalid() -> Move{
+        Move{
+            from: 1,
+            to: 1,
+            capture: false,
+            promotion: 0,
+            en_passant: false,
+        }
+    }
+    pub fn new(from: i32, to: i32, capture: bool, promotion: i32, en_passant: bool) -> Move{
+        Move{from, to, capture, promotion, en_passant}
+    }
+    pub fn is_invalid(&self) -> bool{
+        self.from == self.to
     }
 }

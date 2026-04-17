@@ -10,6 +10,9 @@ impl Piece {
     pub fn new_empty() -> Piece{
         Piece{data: 0}
     }
+    pub fn new_full(data: u32) -> Piece{
+        Piece{data}
+    }
 
     pub fn get_type(&self) -> u32{
         self.data & constants::bitmasks::PIECE_MASK
@@ -17,6 +20,10 @@ impl Piece {
 
     pub fn get_color(&self) -> u32{
         self.data & constants::bitmasks::COLOR_MASK
+    }
+
+    pub fn is_empty(&self) -> bool{
+        self.data == 0
     }
 
     pub fn get_moves(&self)-> Vec<u32> {
@@ -31,5 +38,11 @@ impl Piece {
                 moves
             },
         }
+    }
+}
+
+impl Clone for Piece {
+    fn clone(&self)->Piece {
+        Piece::new_full(self.data)
     }
 }
