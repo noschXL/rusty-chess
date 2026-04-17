@@ -30,7 +30,7 @@ impl Board {
                 let mut index = 0;
                 for char in part{
                     if char.is_alphabetic() {
-                        let color = !char.is_lowercase();
+                        let color = char.is_lowercase();
                         let lower = char.to_lowercase().last().unwrap();
 
                         let piece = (PIECES.chars().position(|c| c == lower).unwrap()+1) << 1;
